@@ -9,7 +9,8 @@ package sortings;
  *
  * @author MHK
  */
-public interface SortingsStrategy {
+public interface SortingsStrategy extends Runnable {
+    
     
     public void Sort(int[] inputArray);
 }

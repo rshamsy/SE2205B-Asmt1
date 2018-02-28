@@ -7,6 +7,7 @@ package sortings;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -68,9 +69,27 @@ public class SortingsViewController implements Initializable {
         this.textArea.setText(arrayGenerator.toString());
     }
     
+    private SortingsStrategy sortingsMethod;
+    
     public void SetSortStrategy(){
         
+        
+        String selection = comboBox.getSelectionModel().getSelectedItem().toString();
+        if(selection.equals("SelectionSort")){
+            sortingsMethod = new SelectionSort();
+            
+        }
+        else{
+            sortingsMethod = new MergeSort();
+        }
+        
+        //create new thread here -- send new to run on the entire thread -- send sortingsMethod and this.
     }
+    
+    public void sortBtn_Click(){
+        sortingsMethod.Sort(arrayGenerator.getArray());
+    }
+    
 
 
     @Override
