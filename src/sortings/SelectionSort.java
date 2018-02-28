@@ -12,19 +12,27 @@ package sortings;
 public class SelectionSort implements SortingsStrategy{
 
 
-    //int[] arrayToSort = null;
+    int[] arrayToSort;
+    SortingsViewController controller; 
     
-    SelectionSort(){
-      //nothing needed in constructor
+    SelectionSort(int[] inputArray, SortingsViewController controller){
+        this.arrayToSort = inputArray;
+        this.controller = controller; 
     }
     
     @Override
-    public void Sort(int[] inputArray){
+    public void Sort(){
     
-        int size = inputArray.length;
+        int size = arrayToSort.length;
         for(int index = 0 ; index<size ; index++){
-            int remainingSmallestIndex = getSmallestIndex(inputArray,index,size-1);
-            swap(inputArray,remainingSmallestIndex,index);
+            int remainingSmallestIndex = getSmallestIndex(arrayToSort,index,size-1);
+            swap(arrayToSort,remainingSmallestIndex,index);
+            try{
+                Thread.sleep(500);
+                controller.fillText(this.toString());
+            }
+            catch(InterruptedException ex){
+            }
         }
         
     }
@@ -45,5 +53,25 @@ public class SelectionSort implements SortingsStrategy{
         int temp = inputArray[toReplaceIndex];
         inputArray[toReplaceIndex] = inputArray[indexOfMin];
         inputArray[indexOfMin] = temp;
+        /*
+        Platform.runLater(()->{
+            //add controller.
+        })
+        */
+    }
+    
+    @Override
+    public String toString(){
+        String stringOfArray = " ";
+        for(int i =0; i<arrayToSort.length ; i++){
+            stringOfArray =  stringOfArray + String.valueOf(arrayToSort[i]) + " ";
+        }
+        
+        return stringOfArray;
+    }
+    
+    @Override
+    public void run(){
+        this.Sort();
     }
 }

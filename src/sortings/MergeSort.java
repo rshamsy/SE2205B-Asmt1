@@ -11,17 +11,21 @@ package sortings;
  */
 public class MergeSort implements SortingsStrategy {
     
-    MergeSort(){
-        
+    int[] arrayToSort;
+    SortingsViewController controller; 
+    
+    MergeSort(int[] inputArray, SortingsViewController controller){
+        this.arrayToSort = inputArray;
+        this.controller = controller;
     }
     @Override
-    public void Sort(int[] inputArray){
+    public void Sort(){
         
-        int size = inputArray.length;
+        int size = arrayToSort.length;
         int last = size-1;
         int first = 0;
         
-        SortAux(inputArray,first,last);
+        SortAux(arrayToSort,first,last);
     }
     
     private void SortAux(int[] array, int first, int last){
@@ -50,10 +54,23 @@ public class MergeSort implements SortingsStrategy {
             if (arrayFull[begHalf1]<arrayFull[begHalf2]){
                 tempArray[index] = arrayFull[begHalf1];
                 begHalf1++;
+                try{
+                    Thread.sleep(500);
+                    controller.fillText(this.toString());
+                }
+                catch(InterruptedException ex){
+                }
             }
             else{
                 tempArray[index]=arrayFull[begHalf2];
                 begHalf2++;
+                try{
+                    Thread.sleep(500);
+                    controller.fillText(this.toString());
+                }
+                catch(InterruptedException ex){
+                }
+                
             }
             index++;
         }
@@ -80,4 +97,10 @@ public class MergeSort implements SortingsStrategy {
             indTemp++;
         }
     }
+    
+    @Override
+    public void run(){
+        this.Sort();
+    }
+    
 }

@@ -12,5 +12,5 @@ package sortings;
 public interface SortingsStrategy extends Runnable {
     
     
-    public void Sort(int[] inputArray);
+    public void Sort();
 }

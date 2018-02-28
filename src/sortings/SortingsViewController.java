@@ -66,28 +66,38 @@ public class SortingsViewController implements Initializable {
     
     public void resetBtn_Click(){
         arrayGenerator.reset((int)arraySizeSlider.getValue());
-        this.textArea.setText(arrayGenerator.toString());
+        fillText(arrayGenerator.toString());
+        //this.textArea.setText(arrayGenerator.toString());
+    }
+    
+    public void fillText(String arrayFill){
+        this.textArea.setText(arrayFill);
     }
     
     private SortingsStrategy sortingsMethod;
-    
-    public void SetSortStrategy(){
+    //Thread sortThread;
+    public Thread SetSortStrategy(){
         
         
-        String selection = comboBox.getSelectionModel().getSelectedItem().toString();
+        //String selection = comboBox.getSelectionModel().getSelectedItem().toString();
+        String selection = comboBox.getValue().toString();
+        
         if(selection.equals("SelectionSort")){
-            sortingsMethod = new SelectionSort();
+            sortingsMethod = new SelectionSort(arrayGenerator.getArray(),this);
             
         }
         else{
-            sortingsMethod = new MergeSort();
+            sortingsMethod = new MergeSort(arrayGenerator.getArray(),this);
         }
-        
+        Thread sortThread = new Thread(sortingsMethod);
         //create new thread here -- send new to run on the entire thread -- send sortingsMethod and this.
+        return sortThread;
+        
     }
     
     public void sortBtn_Click(){
-        sortingsMethod.Sort(arrayGenerator.getArray());
+        SetSortStrategy().start();
+        fillText(arrayGenerator.toString());
     }
     
 
@@ -96,11 +106,13 @@ public class SortingsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) { //used to set initial state of View upon opening
         
         comboBox.getItems().addAll("SelectionSort","MergeSort");
-        
-        textArea.setText("");
+        comboBox.setValue("SelectionSort");
+        arrayGenerator = new SortingsModel((int)arraySizeSlider.getValue());
+        textArea.setText(arrayGenerator.toString());
         arraySizeSlider.setValue(50);
         sliderValue.setText(String.valueOf((int)arraySizeSlider.getValue()));
-    
+        
+        
     }    
     
 }
